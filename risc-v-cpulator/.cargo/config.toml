@@ -1,0 +1,11 @@
+[build]
+target = "riscv64imac-unknown-none-elf"
+
+
+[target.riscv64imac-unknown-none-elf]
+rustflags = [
+    "-C", "link-arg=-Tmemory.x",
+]
+runner = "qemu-system-riscv64 -nographic -M virt -cpu rv64 -serial mon:stdio -kernel"
+
+
