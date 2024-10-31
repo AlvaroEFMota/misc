@@ -1,8 +1,8 @@
 #![no_std]
 #![no_main]
 
-use core::hint::black_box;
 use core::panic::PanicInfo;
+use core::ptr;
 
 //extern crate alloc;
 //use alloc::vec;
@@ -27,27 +27,54 @@ pub extern "C" fn _start() -> ! {
     //}
 
     let display_numbers = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x7f, 0x6f];
-    let device_ptr = DEVICE_BASE_ADDRESS as *mut u8;
+    //let device_ptr = DEVICE_BASE_ADDRESS as *mut u8;
+    let device_ptr = DEVICE_BASE_ADDRESS as *mut u32;
+
+    unsafe {
+        ptr::write_volatile(device_ptr, num_to_display(1234));
+        ptr::write_volatile(device_ptr, num_to_display(-123));
+    }
 
     unsafe {
         for num in display_numbers {
-            *device_ptr = black_box(num);
+            //*device_ptr = black_box(num);
+            ptr::write_volatile(device_ptr, num);
         }
         let device_ptr = device_ptr.add(1);
         for num in display_numbers {
-            *device_ptr = black_box(num);
+            ptr::write_volatile(device_ptr, num);
         }
         let device_ptr = device_ptr.add(1);
         for num in display_numbers {
-            *device_ptr = black_box(num);
+            ptr::write_volatile(device_ptr, num);
         }
         let device_ptr = device_ptr.add(1);
         for num in display_numbers {
-            *device_ptr = black_box(num);
+            ptr::write_volatile(device_ptr, num);
         }
     }
 
     loop {}
+}
+
+fn num_to_display(mut num: i32) -> u32 {
+    let num_disp = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x7f, 0x6f];
+    let mut result = 0u32;
+    let delimiter = if num > 0 {
+        4
+    } else {
+        result += 0x40 << (8 * 3);
+        num *= -1;
+        3
+    };
+    for i in (0..delimiter).rev() {
+        let tmp = num / 10_i32.pow(i);
+        if tmp > 0 {
+            result += num_disp[tmp as usize] << (8 * i);
+        }
+        num -= tmp * 10_i32.pow(i);
+    }
+    result
 }
 
 //#[no_mangle]
