@@ -54,9 +54,12 @@ pub extern "C" fn _start() -> ! {
         }
     }
 
+    //trigger_panic();
+
     loop {}
 }
 
+#[no_mangle]
 fn num_to_display(mut num: i32) -> u32 {
     let num_disp = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x7f, 0x6f];
     let mut result = 0u32;
@@ -76,6 +79,10 @@ fn num_to_display(mut num: i32) -> u32 {
     }
     result
 }
+
+//fn trigger_panic() {
+//    panic!(); // Isso vai gerar um panic sem mensagem
+//}
 
 //#[no_mangle]
 //pub unsafe extern "C" fn Reset() -> ! {
