@@ -1,0 +1,31 @@
+{
+  "name": "MyWallet",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.1.0",
+    "@react-navigation/native": "^7.0.14",
+    "@reduxjs/toolkit": "^2.5.0",
+    "@types/react": "^19.0.1",
+    "@types/react-native": "^0.73.0",
+    "axios": "^1.7.9",
+    "react-native": "0.76.5",
+    "react-native-gesture-handler": "^2.21.2",
+    "react-native-get-random-values": "^1.11.0",
+    "react-native-reanimated": "^3.16.5",
+    "react-native-safe-area-context": "^5.0.0",
+    "react-native-screens": "^4.3.0",
+    "react-redux": "^9.2.0",
+    "reactotron-react-native": "^5.1.10",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2"
+  }
+}

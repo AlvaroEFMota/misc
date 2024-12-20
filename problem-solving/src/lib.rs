@@ -48,3 +48,18 @@ pub fn generate_graph() -> WGraph {
 
     WGraph { graph, weights }
 }
+
+#[allow(dead_code)]
+enum Filetype {
+    RegularFile,
+}
+#[allow(dead_code)]
+struct Inode {
+    file: String,
+    size: u64,
+    blocks: u8,
+    io_block: u8,
+    file_type: Filetype,
+    //device
+    inode: u32,
+}

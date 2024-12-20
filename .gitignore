@@ -3,3 +3,4 @@
 **/release/
 **/build/
 **/Cargo.lock
+**/node_modules/
