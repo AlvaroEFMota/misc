@@ -1,6 +1,4 @@
-fn main() {
-    
-}
+fn main() {}
 
 struct HeapNode {
     value: i32,
@@ -16,7 +14,7 @@ impl HeapNode {
             right: None,
         }
     }
-    
+
     fn insert(&mut self, value: i32) {
         if value < self.value {
             if let Some(node) = &mut self.left {
@@ -32,6 +30,4 @@ impl HeapNode {
             }
         }
     }
-    
-    
 }

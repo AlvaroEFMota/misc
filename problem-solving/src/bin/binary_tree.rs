@@ -8,7 +8,6 @@ pub struct Node {
     right: Option<Box<Node>>,
 }
 
-
 fn main() {
     let mut node = insert(None, 50);
     node = insert(node.take(), 10);

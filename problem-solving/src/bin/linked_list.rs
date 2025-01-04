@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::collections::HashSet;
 use std::rc::Rc;
 
 #[derive(Debug)]
@@ -16,6 +17,66 @@ impl Node {
 #[derive(Debug)]
 struct LinkedList {
     root: Option<Rc<RefCell<Node>>>,
+}
+
+impl LinkedList {
+    fn remove_duplicates(&mut self) {
+        if let Some(root_node) = &self.root {
+            let mut set = HashSet::new();
+
+            let mut tmp = Rc::clone(root_node);
+            set.insert(tmp.borrow().value);
+
+            loop {
+                let node = if let Some(node) = &tmp.borrow().next {
+                    Rc::clone(node)
+                } else {
+                    return;
+                };
+
+                if set.contains(&node.borrow().value) {
+                    tmp.borrow_mut().next = node.borrow_mut().next.take();
+                } else {
+                    set.insert(node.borrow().value);
+                    tmp = node;
+                }
+            }
+        }
+    }
+}
+
+fn main() {
+    let mut list = LinkedList::new();
+    list.insert(1);
+    list.insert(3);
+    list.insert(5);
+    list.insert(7);
+    list.insert(9);
+    list.insert(11);
+    list.insert(2);
+    list.insert(4);
+    list.insert(6);
+    list.insert(8);
+    list.insert(10);
+    list.insert(12);
+    list.insert(14);
+    list.print();
+    let list2 = list.merge();
+    list2.print();
+
+    let mut list3 = LinkedList::new();
+    list3.insert(0);
+    list3.insert(0);
+    list3.insert(1);
+    list3.insert(1);
+    list3.insert(2);
+    list3.insert(2);
+    list3.insert(3);
+    list3.insert(1);
+    println!("Duplicates");
+    list3.print();
+    list3.remove_duplicates();
+    list3.print();
 }
 
 impl LinkedList {
@@ -121,29 +182,10 @@ impl LinkedList {
             }
 
             if let Some(n2) = &p2.clone().borrow().next {
+                println!("Restou {}", n2.borrow().value);
                 list.insert(n2.borrow().value);
             }
         }
         return list;
     }
-}
-
-fn main() {
-    let mut list = LinkedList::new();
-    list.insert(1);
-    list.insert(3);
-    list.insert(5);
-    list.insert(7);
-    list.insert(9);
-    list.insert(11);
-    list.insert(2);
-    list.insert(4);
-    list.insert(6);
-    list.insert(8);
-    list.insert(10);
-    list.insert(12);
-    list.insert(14);
-    list.print();
-    let list2 = list.merge();
-    list2.print();
 }

@@ -1,8 +1,6 @@
 use std::error::Error;
 
-fn main() {
-    
-}
+fn main() {}
 
 struct MinHeap {
     heap: Vec<Option<i32>>,
@@ -11,19 +9,17 @@ struct MinHeap {
 impl MinHeap {
     fn new() -> Self {
         MinHeap {
-            heap: vec![None; 10]
+            heap: vec![None; 10],
         }
     }
-    
-    fn insert(&mut self, value: i32, index: usize) -> Result<(), Box<dyn Error>>{
+
+    fn insert(&mut self, value: i32, index: usize) -> Result<(), Box<dyn Error>> {
         if index >= self.heap.len() {
             return Err(Box::new(std::io::Error::new(
                 std::io::ErrorKind::Other,
-                "Heap cheio"
+                "Heap cheio",
             )));
         }
-        if let Some(value) = &mut self.heap[index] {
-            
-        }
+        if let Some(value) = &mut self.heap[index] {}
     }
 }

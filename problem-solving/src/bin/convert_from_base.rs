@@ -1,5 +1,5 @@
 fn main() -> Result<(), String> {
-    println!("{}", convert_from_base(&['1','1'], 2)?);
+    println!("{}", convert_from_base(&['1', '1'], 2)?);
     Ok(())
 }
 
@@ -8,13 +8,13 @@ fn convert_from_base(number: &[char], base: u8) -> Result<u32, String> {
         return Err(format!("{} is not a valid base", base));
     }
     let mut result: u32 = 0;
-    
+
     for i in 0..number.len() {
         let value = symbol_to_value(number[i])?;
         if value >= base {
-            return Err("The symbol cannot be greater than or equal the base".to_string())
+            return Err("The symbol cannot be greater than or equal the base".to_string());
         }
-        let exp = (number.len()-i-1) as u32;
+        let exp = (number.len() - i - 1) as u32;
         result += value as u32 * base.pow(exp) as u32;
     }
     Ok(result)
