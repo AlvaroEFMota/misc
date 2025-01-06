@@ -1,0 +1,17 @@
+[package]
+name = "quadtree_android"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+eframe = { version = "0.30.0", features = ["default", "android-native-activity"]}
+env_logger = "0.11.6"
+egui_extras = "0.30.0"
+winit = "0.30.8"
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.android]
+build_targets = ["armv7-linux-androideabi", "aarch64-linux-android"]
+
