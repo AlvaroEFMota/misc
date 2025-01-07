@@ -79,11 +79,49 @@ fn main() {
     list3.print();
     list3.remove_kth2last(4);
     list3.print();
+    list3.insert(4);
+    list3.insert(5);
+    list3.print();
+    let node = list3.get_node(3).unwrap();
+    println!("get_node -> {}", node.borrow().value);
+    LinkedList::remove_node(node);
+    list3.print();
 }
 
 impl LinkedList {
     fn new() -> LinkedList {
         LinkedList { root: None }
+    }
+
+    fn remove_node(node: Rc<RefCell<Node>>) {
+        let next_node = if let Some(next_node) = &node.borrow().next {
+            Rc::clone(next_node)
+        } else {
+            return;
+        };
+
+        let mut node_mut = node.borrow_mut();
+        let mut next_node_mut = next_node.borrow_mut();
+        node_mut.value = next_node_mut.value;
+        node_mut.next = next_node_mut.next.take();
+    }
+
+    fn get_node(&self, item: i32) -> Option<Rc<RefCell<Node>>> {
+        if let Some(root_node) = &self.root {
+            let mut tmp = Rc::clone(root_node);
+            if root_node.borrow().value == item {
+                return Some(root_node.clone());
+            }
+
+            while let Some(node) = &tmp.clone().borrow().next {
+                if node.borrow().value == item {
+                    return Some(Rc::clone(node));
+                }
+                tmp = Rc::clone(node);
+            }
+        }
+
+        return None;
     }
 
     fn remove_kth2last(&mut self, k: usize) {
