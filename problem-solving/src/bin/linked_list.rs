@@ -61,7 +61,7 @@ fn main() {
     list.insert(12);
     list.insert(14);
     list.print();
-    let list2 = list.merge();
+    let list2 = list.half_merge();
     list2.print();
 
     let mut list3 = LinkedList::new();
@@ -77,11 +77,53 @@ fn main() {
     list3.print();
     list3.remove_duplicates();
     list3.print();
+    list3.remove_kth2last(4);
+    list3.print();
 }
 
 impl LinkedList {
     fn new() -> LinkedList {
         LinkedList { root: None }
+    }
+
+    fn remove_kth2last(&mut self, k: usize) {
+        if k <= 0 {
+            return;
+        }
+        let val = Self::kth2last_rec(self.root.as_ref(), k);
+        if val == k {
+            let root_node = if let Some(root_node) = &self.root {
+                Rc::clone(root_node)
+            } else {
+                panic!("This should never happen")
+            };
+
+            let next_node = if let Some(next_node) = &root_node.borrow().next {
+                Rc::clone(next_node)
+            } else {
+                panic!("This should never happen")
+            };
+
+            root_node.borrow_mut().next = next_node.borrow_mut().next.take();
+        }
+    }
+
+    fn kth2last_rec(node_op: Option<&Rc<RefCell<Node>>>, k: usize) -> usize {
+        if let Some(node) = node_op {
+            let val = Self::kth2last_rec(node.borrow().next.as_ref(), k);
+            if val == k {
+                let n1 = node;
+                let n2 = if let Some(n2) = &node.borrow().next {
+                    Rc::clone(n2)
+                } else {
+                    panic!("This panic should never happen");
+                };
+                n1.borrow_mut().next = n2.borrow_mut().next.take();
+            }
+            return val + 1;
+        }
+
+        return 0;
     }
 
     fn insert(&mut self, item: i32) {
@@ -135,7 +177,7 @@ impl LinkedList {
         }
     }
 
-    fn merge(&self) -> LinkedList {
+    fn half_merge(&self) -> LinkedList {
         let mut list = LinkedList::new();
         if let Some(root_node) = &self.root {
             let mut slower = Rc::clone(root_node);
