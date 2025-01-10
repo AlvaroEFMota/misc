@@ -133,13 +133,13 @@ impl LinkedList {
             let root_node = if let Some(root_node) = &self.root {
                 Rc::clone(root_node)
             } else {
-                panic!("This should never happen")
+                return;
             };
 
             let next_node = if let Some(next_node) = &root_node.borrow().next {
                 Rc::clone(next_node)
             } else {
-                panic!("This should never happen")
+                return;
             };
 
             root_node.borrow_mut().next = next_node.borrow_mut().next.take();
