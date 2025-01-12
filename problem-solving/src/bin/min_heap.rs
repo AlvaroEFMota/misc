@@ -7,7 +7,7 @@ struct MinHeap {
 impl MinHeap {
     fn new(cap: usize) -> Self {
         MinHeap {
-            vec: vec![-1; cap],
+            vec: vec![i32::MAX; cap],
             size: 0,
         }
     }
